@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TG Кликер</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .click-area {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            background-color: #ff6b6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+        .click-area:active {
+            transform: scale(0.95);
+        }
+        .click-area img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+        .stats {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .upgrades {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .upgrade {
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            width: 45%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TG Кликер</h1>
+        
+        <div class="stats">
+            <h2 id="score">0 очков</h2>
+            <p id="cps">0 очков/сек</p>
+        </div>
+        
+        <div class="click-area" id="clicker">
+            <img src="https://cdn-icons-png.flaticon.com/512/1864/1864593.png" alt="Клик">
+        </div>
+        
+        <div class="upgrades">
+            <div class="upgrade">
+                <h3>Автокликер</h3>
+                <p id="autoclicker-level">Уровень: 0</p>
+                <p id="autoclicker-cost">Стоимость: 10</p>
+                <button id="buy-autoclicker">Купить</button>
+            </div>
+            
+            <div class="upgrade">
+                <h3>Улуч. клик</h3>
+                <p id="click-power-level">Уровень: 1</p>
+                <p id="click-power-cost">Стоимость: 50</p>
+                <button id="buy-click-power">Купить</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Игровые переменные
+        let score = 0;
+        let clickPower = 1;
+        let autoclickerLevel = 0;
+        let autoclickerCost = 10;
+        let clickPowerCost = 50;
+        
+        // Элементы DOM
+        const scoreElement = document.getElementById('score');
+        const cpsElement = document.getElementById('cps');
+        const clickerElement = document.getElementById('clicker');
+        const autoclickerLevelElement = document.getElementById('autoclicker-level');
+        const autoclickerCostElement = document.getElementById('autoclicker-cost');
+        const buyAutoclickerButton = document.getElementById('buy-autoclicker');
+        const clickPowerLevelElement = document.getElementById('click-power-level');
+        const clickPowerCostElement = document.getElementById('click-power-cost');
+        const buyClickPowerButton = document.getElementById('buy-click-power');
+        
+        // Инициализация Telegram Web App
+        Telegram.WebApp.expand();
+        Telegram.WebApp.enableClosingConfirmation();
+        
+        // Обработчик клика
+        clickerElement.addEventListener('click', () => {
+            score += clickPower;
+            updateScore();
+            animateClick();
+        });
+        
+        // Покупка автокликера
+        buyAutoclickerButton.addEventListener('click', () => {
+            if (score >= autoclickerCost) {
+                score -= autoclickerCost;
+                autoclickerLevel++;
+                autoclickerCost = Math.floor(autoclickerCost * 1.5);
+                updateScore();
+                updateButtons();
+                updateAutoclickerInfo();
+            }
+        });
+        
+        // Покупка улучшения клика
+        buyClickPowerButton.addEventListener('click', () => {
+            if (score >= clickPowerCost) {
+                score -= clickPowerCost;
+                clickPower *= 2;
+                clickPowerCost = Math.floor(clickPowerCost * 2.5);
+                updateScore();
+                updateButtons();
+                updateClickPowerInfo();
+            }
+        });
+        
+        // Автокликер
+        setInterval(() => {
+            if (autoclickerLevel > 0) {
+                score += autoclickerLevel;
+                updateScore();
+            }
+        }, 1000);
+        
+        // Обновление интерфейса
+        function updateScore() {
+            scoreElement.textContent = `${score} очков`;
+            cpsElement.textContent = `${autoclickerLevel} очков/сек`;
+            updateButtons();
+        }
+        
+        function updateAutoclickerInfo() {
+            autoclickerLevelElement.textContent = `Уровень: ${autoclickerLevel}`;
+            autoclickerCostElement.textContent = `Стоимость: ${autoclickerCost}`;
+        }
+        
+        function updateClickPowerInfo() {
+            clickPowerLevelElement.textContent = `Уровень: ${Math.log2(clickPower) + 1}`;
+            clickPowerCostElement.textContent = `Стоимость: ${clickPowerCost}`;
+        }
+        
+        function updateButtons() {
+            buyAutoclickerButton.disabled = score < autoclickerCost;
+            buyClickPowerButton.disabled = score < clickPowerCost;
+        }
+        
+        function animateClick() {
+            clickerElement.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                clickerElement.style.transform = 'scale(1)';
+            }, 100);
+        }
+        
+        // Инициализация
+        updateScore();
+        updateAutoclickerInfo();
+        updateClickPowerInfo();
+        updateButtons();
+    </script>
+</body>
+</html>
