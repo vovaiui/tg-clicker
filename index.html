@@ -3,216 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TG Кликер</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>столичная россия - Управление бизнесом</title>
     <style>
-        <script src="telegram-app.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        if (!TelegramWebApp.init()) {
-            document.body.innerHTML = 
-                '<div style="padding:20px;text-align:center;">' +
-                'Пожалуйста, откройте эту страницу через Telegram бота' +
-                '</div>';
+        :root {
+            --primary: #6C5CE7;
+            --secondary: #A29BFE;
+            --dark: #2D3436;
+            --light: #F5F6FA;
+            --accent: #00B894;
         }
-    });
-</script>
+        
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             margin: 0;
             padding: 0;
-            user-select: none;
+            background: linear-gradient(135deg, var(--light), #DFE6E9);
+            color: var(--dark);
+            min-height: 100vh;
         }
+        
         .container {
-            max-width: 500px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
-        .click-area {
-            width: 200px;
-            height: 200px;
-            margin: 20px auto;
-            background-color: #ff6b6b;
-            border-radius: 50%;
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            background: var(--primary);
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            transition: transform 0.1s;
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.2);
         }
-        .click-area:active {
-            transform: scale(0.95);
-        }
-        .click-area img {
-            width: 80%;
-            height: 80%;
-            object-fit: contain;
-        }
-        .stats {
-            background-color: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .upgrades {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .upgrade {
-            background-color: white;
-            border-radius: 10px;
-            padding: 10px;
-            width: 45%;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        button {
-            background-color: #4CAF50;
+        
+        .logo-text {
             color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 5px;
+            font-size: 28px;
+            font-weight: bold;
         }
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: var(--dark);
+            opacity: 0.8;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .feature-icon {
+            background: var(--secondary);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            color: white;
+        }
+        
+        .feature-text h3 {
+            margin: 0 0 5px 0;
+            color: var(--dark);
+        }
+        
+        .feature-text p {
+            margin: 0;
+            color: var(--dark);
+            opacity: 0.7;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .download-btn {
+            display: block;
+            background: var(--accent);
+            color: white;
+            text-align: center;
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 30px auto;
+            max-width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 184, 148, 0.4);
+        }
+        
+        .screenshots {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding-bottom: 10px;
+            margin: 20px 0;
+        }
+        
+        .screenshot {
+            height: 300px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #eee;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--dark);
+            opacity: 0.6;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .logo {
+                width: 80px;
+                height: 80px;
+                border-radius: 16px;
+            }
+            
+            .logo-text {
+                font-size: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>TG Кликер</h1>
+        <header>
+            <div class="logo">
+                <div class="logo-text">CRMP</div>
+            </div>
+            <h1>CRMP Mobile</h1>
+            <div class="subtitle">Мощная CRM система для вашего бизнеса в кармане</div>
+        </header>
         
-        <div class="stats">
-            <h2 id="score">0 очков</h2>
-            <p id="cps">0 очков/сек</p>
+        <div class="card">
+            <h2>О проекте</h2>
+            <p>Cтоличная Россия - это современное мобильное решение для управления клиентскими отношениями, продажами и маркетингом. Приложение предоставляет полный к��нтроль над вашим бизнесом из любого места в любое время.</p>
+            
+            <div class="screenshots">
+                <img class="screenshot" src="https://placehold.co/200x300/6C5CE7/FFFFFF/png?text=Главный+экран" alt="Главный экран">
+                <img class="screenshot" src="https://placehold.co/200x300/A29BFE/FFFFFF/png?text=Контакты" alt="Контакты">
+                <img class="screenshot" src="https://placehold.co/200x300/00B894/FFFFFF/png?text=Аналитика" alt="Аналитика">
+                <img class="screenshot" src="https://placehold.co/200x300/6C5CE7/FFFFFF/png?text=Задачи" alt="Задачи">
+            </div>
         </div>
         
-        <div class="click-area" id="clicker">
-            <img src="https://cdn-icons-png.flaticon.com/512/1864/1864593.png" alt="Клик">
-        </div>
-        
-        <div class="upgrades">
-            <div class="upgrade">
-                <h3>Автокликер</h3>
-                <p id="autoclicker-level">Уровень: 0</p>
-                <p id="autoclicker-cost">Стоимость: 10</p>
-                <button id="buy-autoclicker">Купить</button>
+        <div class="card">
+            <h2>Ключевые возможности</h2>
+            
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <div class="feature-text">
+                    <h3>Аналитика в реальном времени</h3>
+                    <p>Мощные инструменты аналитики с интерактивными дашбордами для отслеживания ключевых показателей бизнеса</p>
+                </div>
             </div>
             
-            <div class="upgrade">
-                <h3>Улуч. клик</h3>
-                <p id="click-power-level">Уровень: 1</p>
-                <p id="click-power-cost">Стоимость: 50</p>
-                <button id="buy-click-power">Купить</button>
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <div class="feature-text">
+                    <h3>Управление контактами</h3>
+                    <p>Централизованное хранение всей информации о клиентах, история взаимодействий и сделок</p>
+                </div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">📅</div>
+                <div class="feature-text">
+                    <h3>Календарь и задачи</h3>
+                    <p>Планирование встреч, напоминания и постановка задач для себя и сотрудников</p>
+                </div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">💼</div>
+                <div class="feature-text">
+                    <h3>Управление сделками</h3>
+                    <p>Контроль всех этапов воронки продаж с возможностью настройки под ваш бизнес-процесс</p>
+                </div>
+            </div>
+            
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <div class="feature-text">
+                    <h3>Безопасность данных</h3>
+                    <p>Шифрование данных, многофакторная аутентификация и контроль доступа</p>
+                </div>
             </div>
         </div>
+        
+        <a href="#" class="download-btn">СКАЧАТЬ ПРИЛОЖЕНИЕ</a>
+        
+        <div class="card">
+            <h2>Технические требования</h2>
+            <p><strong>Платформы:</strong> iOS 14+, Android 8+</p>
+            <p><strong>Размер приложения:</strong> ~45 MB</p>
+            <p><strong>Языки:</strong> Русский, Английский</p>
+        </div>
+        
+        <footer>
+            © 2023 CRMP Mobile. Все права защищены.
+        </footer>
     </div>
-
+    
     <script>
-        // Игровые переменные
-        let score = 0;
-        let clickPower = 1;
-        let autoclickerLevel = 0;
-        let autoclickerCost = 10;
-        let clickPowerCost = 50;
-        
-        // Элементы DOM
-        const scoreElement = document.getElementById('score');
-        const cpsElement = document.getElementById('cps');
-        const clickerElement = document.getElementById('clicker');
-        const autoclickerLevelElement = document.getElementById('autoclicker-level');
-        const autoclickerCostElement = document.getElementById('autoclicker-cost');
-        const buyAutoclickerButton = document.getElementById('buy-autoclicker');
-        const clickPowerLevelElement = document.getElementById('click-power-level');
-        const clickPowerCostElement = document.getElementById('click-power-cost');
-        const buyClickPowerButton = document.getElementById('buy-click-power');
-        
-        // Инициализация Telegram Web App
-        Telegram.WebApp.expand();
-        Telegram.WebApp.enableClosingConfirmation();
-        
-        // Обработчик клика
-        clickerElement.addEventListener('click', () => {
-            score += clickPower;
-            updateScore();
-            animateClick();
-        });
-        
-        // Покупка автокликера
-        buyAutoclickerButton.addEventListener('click', () => {
-            if (score >= autoclickerCost) {
-                score -= autoclickerCost;
-                autoclickerLevel++;
-                autoclickerCost = Math.floor(autoclickerCost * 1.5);
-                updateScore();
-                updateButtons();
-                updateAutoclickerInfo();
+        // Инициализация Telegram WebApp
+        if (window.Telegram && Telegram.WebApp) {
+            const tgWebApp = Telegram.WebApp;
+            
+            // Развернуть приложение на весь экран
+            tgWebApp.expand();
+            
+            // Обработчик кнопки скачивания
+            document.querySelector('.download-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Отправка события в Telegram бота
+                tgWebApp.sendData(JSON.stringify({
+                    action: 'download_app',
+                    platform: tgWebApp.platform
+                }));
+                
+                // Можно также открыть ссылку на скачивание
+                // window.open('https://your-app-download-link.com', '_blank');
+            });
+            
+            // Изменение цветовой схемы под тему Telegram
+            if (tgWebApp.colorScheme === 'dark') {
+                document.body.style.background = 'var(--dark)';
+                document.body.style.color = 'var(--light)';
+                
+                const cards = document.querySelectorAll('.card');
+                cards.forEach(card => {
+                    card.style.background = '#2D3436';
+                    card.style.color = 'var(--light)';
+                });
+                
+                const features = document.querySelectorAll('.feature-text h3, .feature-text p');
+                features.forEach(feature => {
+                    feature.style.color = 'var(--light)';
+                });
             }
-        });
-        
-        // Покупка улучшения клика
-        buyClickPowerButton.addEventListener('click', () => {
-            if (score >= clickPowerCost) {
-                score -= clickPowerCost;
-                clickPower *= 2;
-                clickPowerCost = Math.floor(clickPowerCost * 2.5);
-                updateScore();
-                updateButtons();
-                updateClickPowerInfo();
-            }
-        });
-        
-        // Автокликер
-        setInterval(() => {
-            if (autoclickerLevel > 0) {
-                score += autoclickerLevel;
-                updateScore();
-            }
-        }, 1000);
-        
-        // Обновление интерфейса
-        function updateScore() {
-            scoreElement.textContent = `${score} очков`;
-            cpsElement.textContent = `${autoclickerLevel} очков/сек`;
-            updateButtons();
         }
-        
-        function updateAutoclickerInfo() {
-            autoclickerLevelElement.textContent = `Уровень: ${autoclickerLevel}`;
-            autoclickerCostElement.textContent = `Стоимость: ${autoclickerCost}`;
-        }
-        
-        function updateClickPowerInfo() {
-            clickPowerLevelElement.textContent = `Уровень: ${Math.log2(clickPower) + 1}`;
-            clickPowerCostElement.textContent = `Стоимость: ${clickPowerCost}`;
-        }
-        
-        function updateButtons() {
-            buyAutoclickerButton.disabled = score < autoclickerCost;
-            buyClickPowerButton.disabled = score < clickPowerCost;
-        }
-        
-        function animateClick() {
-            clickerElement.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                clickerElement.style.transform = 'scale(1)';
-            }, 100);
-        }
-        
-        // Инициализация
-        updateScore();
-        updateAutoclickerInfo();
-        updateClickPowerInfo();
-        updateButtons();
     </script>
 </body>
 </html>
