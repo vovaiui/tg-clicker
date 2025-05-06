@@ -6,6 +6,17 @@
     <title>TG Кликер</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        <script src="telegram-app.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!TelegramWebApp.init()) {
+            document.body.innerHTML = 
+                '<div style="padding:20px;text-align:center;">' +
+                'Пожалуйста, откройте эту страницу через Telegram бота' +
+                '</div>';
+        }
+    });
+</script>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
