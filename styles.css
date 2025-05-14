@@ -1,0 +1,189 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
+    padding-bottom: 20px;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.balance-box {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tabs {
+    display: flex;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 5px;
+}
+
+.tab-btn {
+    flex: 1;
+    border: none;
+    background: none;
+    padding: 10px;
+    font-weight: 500;
+    color: #6c757d;
+    border-radius: 8px;
+}
+
+.tab-btn.active {
+    background-color: #f1f3f5;
+    color: #0d6efd;
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #e9ecef;
+    font-weight: 500;
+}
+
+.form-control {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border: none;
+    border-radius: 12px;
+    font-weight: 500;
+    padding: 12px;
+}
+
+.rate-info {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.assets-list {
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.asset-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.asset-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 12px;
+}
+
+.asset-details {
+    flex: 1;
+}
+
+.asset-name {
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.asset-amount {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.asset-value {
+    text-align: right;
+}
+
+.asset-price {
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.asset-change {
+    font-size: 14px;
+    color: #0ac18e;
+}
+
+.asset-change.negative {
+    color: #f6465d;
+}
+
+.history-tabs {
+    display: flex;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 5px;
+}
+
+.history-tab-btn {
+    flex: 1;
+    border: none;
+    background: none;
+    padding: 8px;
+    font-size: 14px;
+    color: #6c757d;
+    border-radius: 8px;
+}
+
+.history-tab-btn.active {
+    background-color: #f1f3f5;
+    color: #0d6efd;
+}
+
+.transaction-item {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.transaction-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.transaction-type {
+    font-weight: 500;
+}
+
+.transaction-amount {
+    font-weight: 500;
+}
+
+.transaction-date {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.transaction-status {
+    font-size: 14px;
+    text-align: right;
+}
+
+.status-completed {
+    color: #0ac18e;
+}
+
+.status-pending {
+    color: #fd7e14;
+}
+
+.status-failed {
+    color: #f6465d;
+}
