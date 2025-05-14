@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Wallet</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 100%;
+            padding: 15px;
+        }
+        .balance-card {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .balance-amount {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .income-expense {
+            display: flex;
+            justify-content: space-between;
+        }
+        .income, .expense {
+            text-align: center;
+        }
+        .btn {
+            background-color: #007aff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-size: 16px;
+            margin: 5px 0;
+            width: 100%;
+            cursor: pointer;
+        }
+        .transaction-list {
+            margin-top: 20px;
+        }
+        .transaction-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .transaction-amount.income {
+            color: #34C759;
+        }
+        .transaction-amount.expense {
+            color: #FF3B30;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="balance-section" class="balance-card">
+            <h2>Общий баланс</h2>
+            <div class="balance-amount" id="balance-amount">0 ₽</div>
+            <div class="income-expense">
+                <div class="income">
+                    <div>Доходы</div>
+                    <div id="income-amount">0 ₽</div>
+                </div>
+                <div class="expense">
+                    <div>Расходы</div>
+                    <div id="expense-amount">0 ₽</div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="btn" id="add-income-btn">Добавить доход</button>
+        <button class="btn" id="add-expense-btn">Добавить расход</button>
+        
+        <div class="transaction-list" id="transaction-list">
+            <h3>Последние операции</h3>
+            <!-- Транзакции будут добавлены здесь -->
+        </div>
+    </div>
+    
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        let userId = null;
+        let categories = [];
+        
+        // Инициализация приложения
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Получаем данные пользователя
+            const initData = tg.initData;
+            const response = await fetch('index.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    initData: initData,
+                    command: 'init'
+                })
+            });
+            
+            const data = await response.json();
+            if (data.ok) {
+                userId = data.user.id;
+                loadBalance();
+                loadTransactions();
+                loadCategories();
+            }
+            
+            // Настройка кнопок
+            document.getElementById('add-income-btn').addEventListener('click', () => showTransactionForm('income'));
+            document.getElementById('add-expense-btn').addEventListener('click', () => showTransactionForm('expense'));
+        });
+        
+        // Загрузка баланса
+        async function loadBalance() {
+            const response = await fetch('index.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    initData: tg.initData,
+                    command: 'get_balance'
+                })
+            });
+            
+            const data = await response.json();
+            if (data.ok) {
+                document.getElementById('balance-amount').textContent = `${data.balance} ₽`;
+                document.getElementById('income-amount').textContent = `${data.income} ₽`;
+                document.getElementById('expense-amount').textContent = `${data.expense} ₽`;
+            }
+        }
+        
+        // Загрузка транзакций
+        async function loadTransactions() {
+            const response = await fetch('index.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    initData: tg.initData,
+                    command: 'get_transactions'
+                })
+            });
+            
+            const data = await response.json();
+            if (data.ok) {
+                const transactionList = document.getElementById('transaction-list');
+                // Очищаем список, кроме заголовка
+                while (transactionList.children.length > 1) {
+                    transactionList.removeChild(transactionList.lastChild);
+                }
+                
+                data.transactions.forEach(transaction => {
+                    const isIncome = categories.find(c => c.name === transaction.category && c.type === 'income');
+                    const item = document.createElement('div');
+                    item.className = 'transaction-item';
+                    item.innerHTML = `
+                        <div>
+                            <div class="transaction-category">${transaction.category}</div>
+                            <div class="transaction-description">${transaction.description || ''}</div>
+                            <div class="transaction-date">${new Date(transaction.transaction_date).toLocaleDateString()}</div>
+                        </div>
+                        <div class="transaction-amount ${isIncome ? 'income' : 'expense'}">
+                            ${isIncome ? '+' : '-'}${transaction.amount} ₽
+                        </div>
+                    `;
+                    transactionList.appendChild(item);
+                });
+            }
+        }
+        
+        // Загрузка категорий
+        async function loadCategories() {
+            const response = await fetch('index.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    initData: tg.initData,
+                    command: 'get_categories'
+                })
+            });
+            
+            const data = await response.json();
+            if (data.ok) {
+                categories = data.categories;
+            }
+        }
+        
+        // Показать форму добавления транзакции
+        function showTransactionForm(type) {
+            tg.showPopup({
+                title: type === 'income' ? 'Добавить доход' : 'Добавить расход',
+                message: '',
+                buttons: [
+                    {id: 'cancel', type: 'cancel'},
+                    {id: 'submit', type: 'ok', text: 'Добавить'}
+                ]
+            }, (buttonId) => {
+                if (buttonId === 'submit') {
+                    addTransaction(type);
+                }
+            });
+            
+            // В реальном приложении здесь нужно добавить форму с полями:
+            // - Сумма
+            // - Категория (выпадающий список)
+            // - Описание (опционально)
+            // И отправить эти данные на сервер
+        }
+        
+        // Добавление транзакции
+        async function addTransaction(type) {
+            // В реальном приложении нужно получить данные из формы
+            const transactionData = {
+                amount: 1000, // Пример значения
+                category: type === 'income' ? 'Зарплата' : 'Еда',
+                description: 'Пример транзакции'
+            };
+            
+            const response = await fetch('index.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    initData: tg.initData,
+                    command: 'add_transaction',
+                    data: transactionData
+                })
+            });
+            
+            const data = await response.json();
+            if (data.ok) {
+                loadBalance();
+                loadTransactions();
+            }
+        }
+    </script>
+</body>
+</html>
