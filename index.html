@@ -1,467 +1,123 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>РемонтPRO - Ремонт помещений под ключ</title>
-    <style>
-        :root {
-            --primary: #6c5ce7;
-            --primary-light: #a29bfe;
-            --dark: #2d3436;
-            --light: #f5f6fa;
-            --accent: #00b894;
-            --accent-dark: #008c6d;
-            --text: #2d3436;
-            --text-light: #636e72;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--light);
-            color: var(--text);
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
-            padding-top: 20px;
-        }
-        
-        .logo-container {
-            background: white;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 15px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 2px solid var(--primary-light);
-        }
-        
-        .logo {
-            font-size: 40px;
-            color: var(--primary);
-        }
-        
-        h1 {
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-        
-        .subtitle {
-            color: var(--text-light);
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border: 1px solid #eee;
-        }
-        
-        .service-card {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 15px;
-            border-radius: 12px;
-            background: var(--light);
-            transition: transform 0.2s;
-        }
-        
-        .service-card:active {
-            transform: scale(0.98);
-        }
-        
-        .service-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            color: white;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-        
-        .service-text h3 {
-            margin: 0 0 5px 0;
-            color: var(--text);
-            font-size: 16px;
-        }
-        
-        .service-text p {
-            margin: 0;
-            color: var(--text-light);
-            font-size: 14px;
-            line-height: 1.4;
-        }
-        
-        .btn {
-            display: block;
-            background: var(--accent);
-            color: white;
-            text-align: center;
-            padding: 16px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-            margin: 20px 0;
-            transition: background 0.2s;
-            border: none;
-            width: 100%;
-            cursor: pointer;
-        }
-        
-        .btn:hover {
-            background: var(--accent-dark);
-        }
-        
-        .btn-secondary {
-            background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary-light);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--primary-light);
-            color: white;
-        }
-        
-        .gallery {
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding-bottom: 10px;
-            margin: 20px 0;
-            scrollbar-width: none;
-        }
-        
-        .gallery::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .gallery-img {
-            height: 180px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        
-        .step {
-            display: flex;
-            margin-bottom: 20px;
-        }
-        
-        .step-number {
-            width: 30px;
-            height: 30px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-        
-        .step-text {
-            flex: 1;
-        }
-        
-        .step-text h3 {
-            margin: 0 0 5px 0;
-            font-size: 16px;
-        }
-        
-        .step-text p {
-            margin: 0;
-            color: var(--text-light);
-            font-size: 14px;
-            line-height: 1.4;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--primary-light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            color: white;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: var(--text-light);
-            font-size: 14px;
-            padding: 20px 0;
-        }
-        
-        .price-badge {
-            background: var(--accent);
-            color: white;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 10px;
-            display: inline-block;
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .logo-container {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .logo {
-                font-size: 30px;
-            }
-            
-            h1 {
-                font-size: 24px;
-            }
-            
-            .card {
-                padding: 20px;
-            }
-        }
-    </style>
+    <title>Crypto Exchange</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="logo-container">
-                <div class="logo">🏠</div>
+        <header class="my-4">
+            <h1 class="text-center">Crypto Exchange</h1>
+            <div class="balance-box p-3 mb-3">
+                <div class="d-flex justify-content-between">
+                    <span>Total Balance</span>
+                    <span class="fw-bold" id="totalBalance">$0.00</span>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                    <span>Available</span>
+                    <span id="availableBalance">$0.00</span>
+                </div>
             </div>
-            <h1>РемонтPRO</h1>
-            <div class="subtitle">Качественный ремонт помещений под ключ</div>
         </header>
-        
-        <div class="card">
-            <h2>Наши услуги</h2>
-            <p>Полный комплекс ремонтных работ от черновой отделки до дизайнерского ремонта</p>
-            
-            <div class="service-card" onclick="tg.WebApp.sendData('service:cosmetic')">
-                <div class="service-icon">✨</div>
-                <div class="service-text">
-                    <h3>Косметический ремонт <span class="price-badge">от 2 500 ₽/м²</span></h3>
-                    <p>Обновление помещения без изменения планировки</p>
+
+        <main>
+            <div class="tabs mb-4">
+                <button class="tab-btn active" id="exchangeTab">Exchange</button>
+                <button class="tab-btn" id="walletTab">Wallet</button>
+                <button class="tab-btn" id="historyTab">History</button>
+            </div>
+
+            <div class="tab-content" id="exchangeContent">
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>You send</span>
+                        <div class="dropdown">
+                            <button class="btn btn-sm dropdown-toggle" type="button" id="sendCurrencyDropdown" data-bs-toggle="dropdown">
+                                BTC
+                            </button>
+                            <ul class="dropdown-menu" id="sendCurrencyList">
+                                <!-- Filled by JS -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="number" class="form-control mb-2" id="sendAmount" placeholder="0.00">
+                        <div class="d-flex justify-content-between text-muted small">
+                            <span>Balance: <span id="sendBalance">0.00 BTC</span></span>
+                            <span class="text-primary" id="sendMax">MAX</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center my-3">
+                    <button class="btn btn-sm btn-outline-primary" id="switchCurrencies">
+                        <i class="bi bi-arrow-down-up"></i>
+                    </button>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>You receive</span>
+                        <div class="dropdown">
+                            <button class="btn btn-sm dropdown-toggle" type="button" id="receiveCurrencyDropdown" data-bs-toggle="dropdown">
+                                USDT
+                            </button>
+                            <ul class="dropdown-menu" id="receiveCurrencyList">
+                                <!-- Filled by JS -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <input type="number" class="form-control mb-2" id="receiveAmount" placeholder="0.00" readonly>
+                        <div class="d-flex justify-content-between text-muted small">
+                            <span>Balance: <span id="receiveBalance">0.00 USDT</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rate-info mb-4">
+                    <div class="d-flex justify-content-between">
+                        <span>Rate</span>
+                        <span id="exchangeRate">1 BTC = 0.00 USDT</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Fee</span>
+                        <span id="exchangeFee">0.00 USDT</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary w-100 py-3" id="exchangeBtn">Exchange</button>
+            </div>
+
+            <div class="tab-content d-none" id="walletContent">
+                <div class="search-box mb-3">
+                    <input type="text" class="form-control" placeholder="Search assets">
+                </div>
+                <div class="assets-list" id="assetsList">
+                    <!-- Filled by JS -->
                 </div>
             </div>
-            
-            <div class="service-card" onclick="tg.WebApp.sendData('service:capital')">
-                <div class="service-icon">🏗️</div>
-                <div class="service-text">
-                    <h3>Капитальный ремонт <span class="price-badge">от 5 000 ₽/м²</span></h3>
-                    <p>Полная замена всех отделочных материалов и коммуникаций</p>
+
+            <div class="tab-content d-none" id="historyContent">
+                <div class="history-tabs mb-3">
+                    <button class="history-tab-btn active">All</button>
+                    <button class="history-tab-btn">Deposits</button>
+                    <button class="history-tab-btn">Withdrawals</button>
+                    <button class="history-tab-btn">Exchanges</button>
+                </div>
+                <div class="transactions-list" id="transactionsList">
+                    <!-- Filled by JS -->
                 </div>
             </div>
-            
-            <div class="service-card" onclick="tg.WebApp.sendData('service:design')">
-                <div class="service-icon">🎨</div>
-                <div class="service-text">
-                    <h3>Дизайнерский ремонт <span class="price-badge">от 8 000 ₽/м²</span></h3>
-                    <p>Ремонт по индивидуальному дизайн-проекту с премиальными материалами</p>
-                </div>
-            </div>
-            
-            <div class="service-card" onclick="tg.WebApp.sendData('service:office')">
-                <div class="service-icon">🏢</div>
-                <div class="service-text">
-                    <h3>Офисный ремонт <span class="price-badge">от 3 500 ₽/м²</span></h3>
-                    <p>Создание комфортного и функционального рабочего пространства</p>
-                </div>
-            </div>
-            
-            <button class="btn" onclick="tg.WebApp.sendData('action:calculate')">
-                📝 Рассчитать стоимость ремонта
-            </button>
-        </div>
-        
-        <div class="card">
-            <h2>Примеры наших работ</h2>
-            <div class="gallery">
-                <img class="gallery-img" src="https://placehold.co/250x180/6c5ce7/FFFFFF/png?text=Кухня" alt="Ремонт кухни">
-                <img class="gallery-img" src="https://placehold.co/250x180/a29bfe/FFFFFF/png?text=Гостиная" alt="Ремонт гостиной">
-                <img class="gallery-img" src="https://placehold.co/250x180/00b894/FFFFFF/png?text=Ванная" alt="Ремонт ванной">
-                <img class="gallery-img" src="https://placehold.co/250x180/74b9ff/FFFFFF/png?text=Офис" alt="Офисный ремонт">
-            </div>
-            <button class="btn btn-secondary" onclick="tg.WebApp.sendData('action:more_examples')">
-                🖼️ Больше примеров
-            </button>
-        </div>
-        
-        <div class="card">
-            <h2>Как мы работаем</h2>
-            
-            <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-text">
-                    <h3>Заявка и замер</h3>
-                    <p>Оставляете заявку, наш специалист приезжает на замер и консультацию</p>
-                </div>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-text">
-                    <h3>Смета и договор</h3>
-                    <p>Составляем подробную смету и заключаем договор</p>
-                </div>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-text">
-                    <h3>Выполнение работ</h3>
-                    <p>Наши мастера выполняют ремонт согласно утвержденному плану</p>
-                </div>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">4</div>
-                <div class="step-text">
-                    <h3>Сдача объекта</h3>
-                    <p>Приемка работы, гарантийные обязательства</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card">
-            <h2>Наши преимущества</h2>
-            <ul style="padding-left: 20px; color: var(--text-light); line-height: 1.6;">
-                <li>Опыт работы более 10 лет</li>
-                <li>Фиксированные цены в договоре</li>
-                <li>Используем только качественные материалы</li>
-                <li>Гарантия на работы до 3 лет</li>
-                <li>Четкие сроки с прописанными штрафами за срыв</li>
-                <li>Соблюдение всех строительных норм</li>
-            </ul>
-        </div>
-        
-        <div class="card">
-            <h2>Контакты</h2>
-            
-            <div class="contact-item" onclick="tg.WebApp.sendData('contact:phone')">
-                <div class="contact-icon">📞</div>
-                <div>
-                    <h3 style="margin: 0;">Телефон</h3>
-                    <p style="margin: 0; color: var(--primary);">+7 (XXX) XXX-XX-XX</p>
-                </div>
-            </div>
-            
-            <div class="contact-item" onclick="tg.WebApp.sendData('contact:email')">
-                <div class="contact-icon">✉️</div>
-                <div>
-                    <h3 style="margin: 0;">Email</h3>
-                    <p style="margin: 0; color: var(--primary);">info@remontpro.ru</p>
-                </div>
-            </div>
-            
-            <div class="contact-item" onclick="tg.WebApp.sendData('contact:address')">
-                <div class="contact-icon">📍</div>
-                <div>
-                    <h3 style="margin: 0;">Адрес офиса</h3>
-                    <p style="margin: 0; color: var(--primary);">г. Москва, ул. Строителей, 15</p>
-                </div>
-            </div>
-            
-            <button class="btn" onclick="tg.WebApp.sendData('action:callback')">
-                📲 Заказать обратный звонок
-            </button>
-        </div>
-        
-        <footer>
-            © 2023 РемонтPRO. Все права защищены.
-        </footer>
+        </main>
     </div>
-    
-    <script>
-        // Инициализация Telegram WebApp
-        document.addEventListener('DOMContentLoaded', function() {
-            if (window.Telegram && Telegram.WebApp) {
-                const tg = Telegram.WebApp;
-                
-                // Развернуть приложение на весь экран
-                tg.expand();
-                
-                // Изменение цветовой схемы под тему Telegram
-                if (tg.colorScheme === 'dark') {
-                    document.body.style.backgroundColor = '#212121';
-                    document.body.style.color = '#ffffff';
-                    
-                    const cards = document.querySelectorAll('.card');
-                    cards.forEach(card => {
-                        card.style.backgroundColor = '#2d2d2d';
-                        card.style.color = '#ffffff';
-                        card.style.borderColor = '#3d3d3d';
-                    });
-                    
-                    const serviceCards = document.querySelectorAll('.service-card');
-                    serviceCards.forEach(card => {
-                        card.style.backgroundColor = '#3d3d3d';
-                    });
-                    
-                    document.querySelectorAll('.service-text p, .step-text p').forEach(p => {
-                        p.style.color = '#bbbbbb';
-                    });
-                    
-                    document.querySelectorAll('.btn-secondary').forEach(btn => {
-                        btn.style.backgroundColor = '#3d3d3d';
-                        btn.style.color = '#ffffff';
-                        btn.style.borderColor = '#6c5ce7';
-                    });
-                }
-                
-                // Обработка нажатия кнопки "Назад"
-                tg.BackButton.onClick(function() {
-                    tg.close();
-                });
-                
-                // Показать кнопку "Назад" если это не главная страница
-                // tg.BackButton.show();
-            }
-        });
-    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
